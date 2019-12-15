@@ -16,5 +16,6 @@ public class Unknown extends Action {
     @Override
     public void execute(Message message) {
         new VKManager().sendMessage(answer,message.getUserId());
+        LogToConsole(log(message));
     }
 }

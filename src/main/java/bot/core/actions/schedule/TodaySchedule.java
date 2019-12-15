@@ -4,18 +4,29 @@ import bot.core.actions.Action;
 import bot.vkcore.VKManager;
 import com.vk.api.sdk.objects.messages.Message;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Properties;
 
 public class TodaySchedule extends Action {
     Locale localeRu = new Locale("ru", "RU");
+    static Properties properties = new Properties();
+    static String path_to_days = "days/";
+    static {
+        try {
+            properties.load(Objects.requireNonNull(
+                    ClassLoader.getSystemResourceAsStream("config-bot.properties")));
+        } catch (IOException ignored) {
+
+        }
+        if(!properties.getProperty("path_to_days").equals("null")){
+            path_to_days = properties.getProperty("path_to_days");
+        }
+    }
 
     public TodaySchedule(String name){
         super(name);
@@ -23,18 +34,39 @@ public class TodaySchedule extends Action {
 
     @Override
     public void execute(Message message) {
-        new VKManager().sendMessage(GetTodaySchendle(),message.getUserId());
+        new VKManager().sendMessage(GetTodaySchedule(),message.getUserId());
+        LogToConsole(log(message));
     }
 
 
-    private String GetTodaySchendle(){
+    private String GetTodaySchedule(){
+        return properties.getProperty("path_to_days").equals("null")? TodayScheduleSource() :TodaySchendlePath();
+    }
+
+    private String TodayScheduleSource(){
         return "Сегодня " +
                 LocalDate.now().getDayOfWeek().getDisplayName(TextStyle.FULL, localeRu) + ": \n" +
                 GetBuildedSubjects(Objects.requireNonNull(
                         ClassLoader.getSystemResourceAsStream(
-                                "days/" + LocalDate.now().getDayOfWeek().toString().toLowerCase() + ".txt"
+                                path_to_days + LocalDate.now().getDayOfWeek().toString().toLowerCase() + ".txt"
                         )));
     }
+
+    private String TodaySchendlePath() {
+        try {
+            return "Сегодня " +
+                    LocalDate.now().getDayOfWeek().getDisplayName(TextStyle.FULL, localeRu) + ": \n" +
+                    GetBuildedSubjects(new FileInputStream(new File(path_to_days
+                            + "/"
+                            + LocalDate.now().getDayOfWeek().toString().toLowerCase()
+                            + ".txt"
+                    )));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     private String GetBuildedSubjects(InputStream inputStream){
 
