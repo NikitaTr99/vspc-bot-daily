@@ -44,7 +44,7 @@ public class VKCore {
         List<Message> messages = events_query
                 .execute()
                 .getMessages()
-                .getMessages();
+                .getItems();
         if(!messages.isEmpty()) {
             try{
                 ts = vkApiClient

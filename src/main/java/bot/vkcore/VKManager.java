@@ -2,6 +2,9 @@ package bot.vkcore;
 
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
+import com.vk.api.sdk.objects.messages.Message;
+
+import java.util.Random;
 
 public class VKManager {
     public static VKCore vkCore;
@@ -13,13 +16,15 @@ public class VKManager {
         }
     }
 
-    public void sendMessage(String msg, int peerId){
-        if (msg == null){
-            System.out.println("null");
-            return;
-        }
+    public void sendMessage(Message message) {
         try {
-            vkCore.getVkApiClient().messages().send(vkCore.getGroupActor()).peerId(peerId).message(msg).execute();
+            vkCore.getVkApiClient()
+                    .messages()
+                    .send(vkCore.getGroupActor())
+                    .message(message.getText())
+                    .peerId(message.getPeerId())
+                    .randomId(message.getRandomId())
+                    .execute();
         } catch (ApiException | ClientException e) {
             e.printStackTrace();
         }
