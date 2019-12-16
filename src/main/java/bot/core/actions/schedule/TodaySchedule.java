@@ -1,5 +1,6 @@
 package bot.core.actions.schedule;
 
+import bot.Loader;
 import bot.core.actions.Action;
 import bot.vkcore.VKManager;
 import com.vk.api.sdk.objects.messages.Message;
@@ -14,17 +15,10 @@ import java.util.Properties;
 
 public class TodaySchedule extends Action {
     Locale localeRu = new Locale("ru", "RU");
-    static Properties properties = new Properties();
     static String path_to_days = "days/";
     static {
-        try {
-            properties.load(Objects.requireNonNull(
-                    ClassLoader.getSystemResourceAsStream("config-bot.properties")));
-        } catch (IOException ignored) {
-
-        }
-        if(!properties.getProperty("path_to_days").equals("null")){
-            path_to_days = properties.getProperty("path_to_days");
+        if(!Loader.BotSettings.properties.getProperty("path_to_days").equals("null")){
+            path_to_days = Loader.BotSettings.properties.getProperty("path_to_days");
         }
     }
 
@@ -40,7 +34,7 @@ public class TodaySchedule extends Action {
 
 
     private String GetTodaySchedule(){
-        return properties.getProperty("path_to_days").equals("null")? TodayScheduleSource() :TodaySchendlePath();
+        return Loader.BotSettings.properties.getProperty("path_to_days").equals("null")? TodayScheduleSource() :TodaySchendlePath();
     }
 
     private String TodayScheduleSource(){
