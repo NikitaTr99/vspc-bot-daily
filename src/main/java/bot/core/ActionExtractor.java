@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public class ActionExtractor {
     public static Action getCommand(Collection<Action> actions, Message message) {
-        String body = message.getBody();
+        String body = message.getText();
         for(Action action:actions) {
             if(action.name.equals(body.split(" ")[0].toLowerCase()) ||
                     action.name.toLowerCase().charAt(0) == body.split(" ")[0].toLowerCase().charAt(0)){
