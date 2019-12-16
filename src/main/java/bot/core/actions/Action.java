@@ -16,13 +16,20 @@ public abstract class Action implements Loggable {
 
     public abstract void execute(Message message);
 
+    protected Message buildMessage(String text,int peerId){
+        return new Message()
+                .setText(text)
+                .setPeerId(peerId)
+                .setRandomId((int) System.currentTimeMillis());
+    }
+
     protected String log(Message message){
         SimpleDateFormat date = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy zzz");
         date.setTimeZone(TimeZone.getTimeZone("GMT+4:00"));
         return "Action executed: "
                 + "["
                 + "name: " + this.getClass().getSimpleName()
-                + " userId: " + message.getUserId()
+                + " userId: " + message.getPeerId()
                 + " time: " + date.format(System.currentTimeMillis())
                 +"]";
     }
