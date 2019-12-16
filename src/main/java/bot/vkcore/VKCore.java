@@ -1,5 +1,6 @@
 package bot.vkcore;
 
+import bot.Loader;
 import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.GroupActor;
@@ -28,16 +29,10 @@ public class VKCore {
         Properties prop = new Properties();
         int group_id;
         String access_token;
-        try {
-            prop.load(Objects.requireNonNull(ClassLoader.getSystemResourceAsStream("vkconfig-test.properties")));
-            group_id = Integer.parseInt(prop.getProperty("group_id"));
-            access_token = prop.getProperty("access_token");
-            groupActor = new GroupActor(group_id,access_token);
-            ts = vkApiClient.messages().getLongPollServer(groupActor).execute().getTs();
-        } catch (IOException e){
-            e.printStackTrace();
-            System.out.println("Ошибка при загрузке конфигурации");
-        }
+        group_id = Integer.parseInt(Loader.BotSettings.vk_properties.getProperty("group_id"));
+        access_token = Loader.BotSettings.vk_properties.getProperty("access_token");
+        groupActor = new GroupActor(group_id,access_token);
+        ts = vkApiClient.messages().getLongPollServer(groupActor).execute().getTs();
     }
 
     public Message getMessage() throws ClientException, ApiException {
