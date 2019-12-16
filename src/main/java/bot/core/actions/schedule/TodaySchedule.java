@@ -11,14 +11,13 @@ import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Properties;
 
 public class TodaySchedule extends Action {
     Locale localeRu = new Locale("ru", "RU");
     static String path_to_days = "days/";
     static {
-        if(!Loader.BotSettings.properties.getProperty("path_to_days").equals("null")){
-            path_to_days = Loader.BotSettings.properties.getProperty("path_to_days");
+        if(!Loader.BotSettings.bot_properties.getProperty("path_to_days").equals("null")){
+            path_to_days = Loader.BotSettings.bot_properties.getProperty("path_to_days");
         }
     }
 
@@ -34,7 +33,7 @@ public class TodaySchedule extends Action {
 
 
     private String GetTodaySchedule(){
-        return Loader.BotSettings.properties.getProperty("path_to_days").equals("null")? TodayScheduleSource() :TodaySchendlePath();
+        return Loader.BotSettings.bot_properties.getProperty("path_to_days").equals("null")? TodayScheduleSource() :TodaySchendlePath();
     }
 
     private String TodayScheduleSource(){
