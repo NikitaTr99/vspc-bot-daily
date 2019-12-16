@@ -39,13 +39,13 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = 'bot.BotWorker'
+    mainClassName = 'bot.Loader'
 }
 
 jar {
     manifest {
         attributes(
-                'Main-Class': 'bot.BotWorker'
+                'Main-Class': 'bot.Loader'
         )
     }
     from {
