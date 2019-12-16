@@ -17,7 +17,7 @@ public class BotWorker {
         }
     }
 
-    public static void main(String[] args) throws NullPointerException, InterruptedException {
+    public static void main() throws NullPointerException, InterruptedException {
         System.out.println("Start up bot...");
         while (true){
             Thread.sleep(300);
@@ -27,13 +27,14 @@ public class BotWorker {
                     Executors
                             .newCachedThreadPool()
                             .execute(new ActionThread(message));
+
                 }
             } catch (ClientException e){
                 System.out.println("Возникли проблемы");
                 final int RECONNECT_TIME = 10000;
                 System.out.println("Повторное соединение через " + RECONNECT_TIME / 1000 + " секунд");
                 Thread.sleep(RECONNECT_TIME);
-            } catch (ApiException a){
+            } catch (ApiException ignored){
 
             }
         }
