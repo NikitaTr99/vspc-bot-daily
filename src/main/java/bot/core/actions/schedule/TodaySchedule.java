@@ -27,13 +27,14 @@ public class TodaySchedule extends Action {
 
     @Override
     public void execute(Message message) {
-        new VKManager().sendMessage(GetTodaySchedule(),message.getUserId());
+        new VKManager().sendMessage(buildMessage(GetTodaySchedule(),message.getPeerId()));
         LogToConsole(log(message));
     }
 
 
     private String GetTodaySchedule(){
-        return Loader.BotSettings.bot_properties.getProperty("path_to_days").equals("null")? TodayScheduleSource() :TodaySchendlePath();
+        return Loader.BotSettings.bot_properties
+                .getProperty("path_to_days").equals("null")? TodayScheduleSource() :TodaySchendlePath();
     }
 
     private String TodayScheduleSource(){

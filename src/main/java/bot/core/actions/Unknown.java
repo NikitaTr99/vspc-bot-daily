@@ -4,7 +4,7 @@ import bot.vkcore.VKManager;
 import com.vk.api.sdk.objects.messages.Message;
 
 public class Unknown extends Action {
-    String answer = "Я не знаю такой команды.\n" +
+    String text = "Я не знаю такой команды.\n" +
             "Что бы получить расписание на сегодня отправь" +
             " \"расписание\" или " +
             "сокращённо \"р\".";
@@ -15,7 +15,7 @@ public class Unknown extends Action {
 
     @Override
     public void execute(Message message) {
-        new VKManager().sendMessage(answer,message.getUserId());
+        new VKManager().sendMessage(buildMessage(text,message.getPeerId()));
         LogToConsole(log(message));
     }
 }
