@@ -4,26 +4,71 @@ import bot.core.interfaces.Loggable;
 import bot.vkcore.VKCore;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
+import com.vk.api.sdk.objects.groups.Group;
+import com.vk.api.sdk.objects.messages.Message;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.concurrent.Executors;
 
-public class Loader implements Loggable {
-    private static VKCore vkCore;
+public class Loader {
+    private static VKCore vk_core;
+    private static String now_time;
     static {
         try {
-            vkCore = new VKCore();
+            vk_core = new VKCore();
         } catch (ClientException | ApiException e) {
             e.printStackTrace();
         }
     }
 
+    private static void BotMode_SCH() throws InterruptedException {
+        while (true){
+            Thread.sleep(300);
+            try {
+                Message message = vk_core.getMessage();
+                if(message != null){
+                    Executors
+                            .newCachedThreadPool()
+                            .execute(new ActionThread(message));
+
+                }
+            } catch (ClientException e){
+                System.out.println("Connection error");
+                final int RECONNECT_TIME = 10000;
+                System.out.println("Reconnect after " + RECONNECT_TIME / 1000 + " seconds.");
+                Thread.sleep(RECONNECT_TIME);
+            } catch (ApiException ignored){
+
+            }
+        }
+    }
+
+    private static void BotMode_DAILY(){
+        while (true){
+            now_time = new SimpleDateFormat("HH:mm").format(System.currentTimeMillis());
+            if(now_time.equals(BotSettings.bot_properties.getProperty("notification_time"))){
+                System.out.println();
+            }
+        }
+    }
+
     public static void main(String[] args) throws InterruptedException {
-        BotWorker.main();
+        System.out.println("Start up bot...");
+        switch (BotSettings.bot_properties.getProperty("mode")){
+            case "sch":
+                BotMode_SCH();
+                break;
+            case "daily":
+                BotMode_DAILY();
+                break;
+        }
     }
 
     public static class BotSettings {
