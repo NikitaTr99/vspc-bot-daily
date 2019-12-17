@@ -34,7 +34,7 @@ public class TodaySchedule extends Action {
 
     private String GetTodaySchedule(){
         return Loader.BotSettings.bot_properties
-                .getProperty("path_to_days").equals("null")? TodayScheduleSource() :TodaySchendlePath();
+                .getProperty("path_to_days").equals("null")? TodayScheduleSource() : TodaySchedulePath();
     }
 
     private String TodayScheduleSource(){
@@ -46,7 +46,7 @@ public class TodaySchedule extends Action {
                         )));
     }
 
-    private String TodaySchendlePath() {
+    private String TodaySchedulePath() {
         try {
             return "Сегодня " +
                     LocalDate.now().getDayOfWeek().getDisplayName(TextStyle.FULL, localeRu) + ": \n" +

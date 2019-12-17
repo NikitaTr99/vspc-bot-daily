@@ -4,8 +4,6 @@ import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.messages.Message;
 
-import java.util.Random;
-
 public class VKManager {
     public static VKCore vkCore;
     static {

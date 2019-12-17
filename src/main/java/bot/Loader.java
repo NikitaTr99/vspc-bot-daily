@@ -1,18 +1,17 @@
 package bot;
 
-import bot.core.interfaces.Loggable;
 import bot.vkcore.VKCore;
+import com.vk.api.sdk.actions.Groups;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
-import com.vk.api.sdk.objects.groups.Group;
 import com.vk.api.sdk.objects.messages.Message;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.Executors;
@@ -51,10 +50,23 @@ public class Loader {
     }
 
     private static void BotMode_DAILY(){
+        List<Integer> g = new ArrayList<>();
+        try {
+            g = new Groups(vk_core.getVkApiClient())
+                    .getMembers(vk_core.getGroupActor())
+                    .groupId(String.valueOf(vk_core.getGroupActor().getGroupId()))
+                    .execute()
+                    .getItems();
+        } catch (ApiException | ClientException e) {
+            e.printStackTrace();
+        }
         while (true){
-            now_time = new SimpleDateFormat("HH:mm").format(System.currentTimeMillis());
+            now_time = new SimpleDateFormat("HH:mm:ss").format(System.currentTimeMillis());
             if(now_time.equals(BotSettings.bot_properties.getProperty("notification_time"))){
-                System.out.println();
+                System.out.println(vk_core.getGroupActor());
+                for(Integer id:g){
+                    System.out.println(id.toString());
+                }
             }
         }
     }
