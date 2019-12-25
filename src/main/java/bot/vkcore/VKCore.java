@@ -1,6 +1,6 @@
 package bot.vkcore;
 
-import bot.Loader;
+import bot.Bootstrapper;
 import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.GroupActor;
@@ -25,8 +25,8 @@ public class VKCore {
         Properties prop = new Properties();
         int group_id;
         String access_token;
-        group_id = Integer.parseInt(Loader.BotSettings.vk_properties.getProperty("group_id"));
-        access_token = Loader.BotSettings.vk_properties.getProperty("access_token");
+        group_id = Integer.parseInt(Bootstrapper.BotSettings.vk_properties.getProperty("group_id"));
+        access_token = Bootstrapper.BotSettings.vk_properties.getProperty("access_token");
         groupActor = new GroupActor(group_id,access_token);
         ts = vkApiClient.messages().getLongPollServer(groupActor).execute().getTs();
     }
