@@ -1,23 +1,17 @@
 package bot;
 
-import bot.core.interfaces.Loggable;
 import bot.vkcore.VKCore;
-import com.vk.api.sdk.actions.Groups;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
-import com.vk.api.sdk.objects.messages.Message;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.Executors;
 
-public class Loader {
+public class Bootstrapper {
     private static VKCore vk_core;
 
     static {
@@ -27,65 +21,18 @@ public class Loader {
             e.printStackTrace();
         }
     }
-
-    private static void BotMode_SCH() throws InterruptedException {
-        System.out.println("The bot is launched in schedule mode.");
-        while (true){
-            Thread.sleep(300);
-            try {
-                Message message = vk_core.getMessage();
-                if(message != null){
-                    Executors
-                            .newCachedThreadPool()
-                            .execute(new ActionThread(message));
-
-                }
-            } catch (ClientException e){
-                System.out.println("Connection error");
-                final int RECONNECT_TIME = 10000;
-                System.out.println("Reconnect after " + RECONNECT_TIME / 1000 + " seconds.");
-                Thread.sleep(RECONNECT_TIME);
-            } catch (ApiException ignored){
-
-            }
+    public static void main(String[] args) {
+        System.out.println("Bootstrap bot...");
+        try{
+            Executors.newCachedThreadPool().execute(new ActionListener(vk_core));
+            Executors.newCachedThreadPool().execute(new DailyListener(vk_core));
         }
-    }
-
-    private static void BotMode_DAILY(){
-        List<Integer> g = new ArrayList<>();
-        try {
-            g = new Groups(vk_core.getVkApiClient())
-                    .getMembers(vk_core.getGroupActor())
-                    .groupId(String.valueOf(vk_core.getGroupActor().getGroupId()))
-                    .execute()
-                    .getItems();
-        } catch (ApiException | ClientException e) {
+        catch (Exception e){
+            System.out.println("Something wrong.");
             e.printStackTrace();
         }
-        System.out.println("The bot is launched in daily mode.");
-        while (true){
-            String now_time = new SimpleDateFormat("HH:mm:ss").format(System.currentTimeMillis());
-            if(now_time.equals(BotSettings.bot_properties.getProperty("notification_time"))){
-                System.out.println(vk_core.getGroupActor());
-                for(Integer id:g){
-                    System.out.println(id.toString());
-                }
-            }
-        }
-    }
 
-    public static void main(String[] args) throws InterruptedException {
-        System.out.println("Start up bot...");
-        switch (BotSettings.bot_properties.getProperty("mode")){
-            case "sch":
-                BotMode_SCH();
-                break;
-            case "daily":
-                BotMode_DAILY();
-                break;
-        }
     }
-
     public static class BotSettings {
         public static Properties bot_properties;
         public static Properties vk_properties;
