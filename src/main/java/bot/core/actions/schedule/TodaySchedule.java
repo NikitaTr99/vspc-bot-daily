@@ -9,6 +9,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -21,8 +22,8 @@ public class TodaySchedule extends Action {
         }
     }
 
-    public TodaySchedule(String name){
-        super(name);
+    public TodaySchedule(ArrayList<String> tags){
+        super(tags);
     }
 
     @Override
