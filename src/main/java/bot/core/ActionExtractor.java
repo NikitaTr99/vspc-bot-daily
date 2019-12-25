@@ -7,14 +7,16 @@ import com.vk.api.sdk.objects.messages.Message;
 import java.util.Collection;
 
 public class ActionExtractor {
-    public static Action getCommand(Collection<Action> actions, Message message) {
+
+    public static Action getCommandTag(Collection<Action> actions, Message message) {
         String body = message.getText();
         for(Action action:actions) {
-            if(action.name.equals(body.split(" ")[0].toLowerCase()) ||
-                    action.name.toLowerCase().charAt(0) == body.split(" ")[0].toLowerCase().charAt(0)){
-                return action;
+            for(String s : action.word_tags){
+                if (s.equalsIgnoreCase(body.split(" ")[0])){
+                    return action;
+                }
             }
         }
-        return new Unknown("Unknown");
+        return new Unknown();
     }
 }
