@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
 
 public class Loader {
     private static VKCore vk_core;
-    private static String now_time;
+
     static {
         try {
             vk_core = new VKCore();
@@ -61,7 +61,7 @@ public class Loader {
             e.printStackTrace();
         }
         while (true){
-            now_time = new SimpleDateFormat("HH:mm:ss").format(System.currentTimeMillis());
+            String now_time = new SimpleDateFormat("HH:mm:ss").format(System.currentTimeMillis());
             if(now_time.equals(BotSettings.bot_properties.getProperty("notification_time"))){
                 System.out.println(vk_core.getGroupActor());
                 for(Integer id:g){
