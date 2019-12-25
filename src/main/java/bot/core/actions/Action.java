@@ -4,14 +4,15 @@ import bot.core.interfaces.Loggable;
 import com.vk.api.sdk.objects.messages.Message;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.TimeZone;
 
 public abstract class Action implements Loggable {
 
-    public final String name;
+    public ArrayList<String> word_tags;
 
-    public Action(String name){
-        this.name = name;
+    public Action(ArrayList<String> word_tags){
+        this.word_tags = word_tags;
     }
 
     public abstract void execute(Message message);
