@@ -1,5 +1,6 @@
 package bot;
 
+import bot.core.interfaces.Loggable;
 import bot.vkcore.VKCore;
 import com.vk.api.sdk.actions.Groups;
 import com.vk.api.sdk.exceptions.ApiException;
@@ -28,6 +29,7 @@ public class Loader {
     }
 
     private static void BotMode_SCH() throws InterruptedException {
+        System.out.println("The bot is launched in schedule mode.");
         while (true){
             Thread.sleep(300);
             try {
@@ -60,6 +62,7 @@ public class Loader {
         } catch (ApiException | ClientException e) {
             e.printStackTrace();
         }
+        System.out.println("The bot is launched in daily mode.");
         while (true){
             String now_time = new SimpleDateFormat("HH:mm:ss").format(System.currentTimeMillis());
             if(now_time.equals(BotSettings.bot_properties.getProperty("notification_time"))){
