@@ -32,7 +32,8 @@ public class VKCore {
     }
 
     public Message getMessage() throws ClientException, ApiException {
-        MessagesGetLongPollHistoryQuery events_query = vkApiClient.messages()
+        MessagesGetLongPollHistoryQuery events_query = vkApiClient
+                .messages()
                 .getLongPollHistory(groupActor)
                 .ts(ts);
         if(maxMsgId > 0)
@@ -42,15 +43,7 @@ public class VKCore {
                 .getMessages()
                 .getItems();
         if(!messages.isEmpty()) {
-            try{
-                ts = vkApiClient
-                        .messages()
-                        .getLongPollServer(groupActor)
-                        .execute()
-                        .getTs();
-            } catch (ClientException e) {
-                e.printStackTrace();
-            }
+            UpdateTs();
         }
         if(!messages.isEmpty() && !messages.get(0).isOut()){
             int message_id = messages.get(0).getId();
@@ -68,5 +61,18 @@ public class VKCore {
 
     public GroupActor getGroupActor() {
         return groupActor;
+    }
+
+    private void UpdateTs(){
+        try{
+            ts = vkApiClient
+                    .messages()
+                    .getLongPollServer(groupActor)
+                    .execute()
+                    .getTs();
+        } catch (ClientException | ApiException e) {
+            System.out.println("Error. VKCore [66-77]");
+            e.printStackTrace();
+        }
     }
 }
