@@ -18,7 +18,7 @@ public class ActionListener implements Runnable {
         System.out.println("ActionListener is ran.");
         while (true){
             try {
-                Thread.sleep(300);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
