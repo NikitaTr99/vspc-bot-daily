@@ -1,5 +1,6 @@
 package bot;
 
+import bot.core.interfaces.Loggable;
 import bot.vkcore.VKCore;
 import bot.vkcore.VKManager;
 import com.vk.api.sdk.actions.Groups;
@@ -11,14 +12,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DailyListener implements Runnable {
+public class DailyListener implements Runnable, Loggable {
     private VKCore vk_core;
     DailyListener(VKCore vk_core){
         this.vk_core = vk_core;
     }
     @Override
     public void run() {
-        System.out.println("DailyListener is ran.");
+        LogToConsole("DailyListener started.");
         List<Integer> g = new ArrayList<>();
         try {
             g = new Groups(vk_core.getVkApiClient())
