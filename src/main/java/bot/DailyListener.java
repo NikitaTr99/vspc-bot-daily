@@ -47,6 +47,13 @@ public class DailyListener implements Runnable {
                     e.printStackTrace();
                 }
             }
+            else {
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
