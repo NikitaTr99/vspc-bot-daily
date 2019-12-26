@@ -63,16 +63,11 @@ public class VKCore {
         return groupActor;
     }
 
-    private void UpdateTs(){
-        try{
+    private void UpdateTs() throws ClientException, ApiException{
             ts = vkApiClient
                     .messages()
                     .getLongPollServer(groupActor)
                     .execute()
                     .getTs();
-        } catch (ClientException | ApiException e) {
-            System.out.println("Error. VKCore [66-77]");
-            e.printStackTrace();
-        }
     }
 }

@@ -1,6 +1,7 @@
 package bot;
 
 import bot.core.ActionThread;
+import bot.core.interfaces.Loggable;
 import bot.vkcore.VKCore;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
@@ -8,14 +9,14 @@ import com.vk.api.sdk.objects.messages.Message;
 
 import java.util.concurrent.Executors;
 
-public class ActionListener implements Runnable {
+public class ActionListener implements Runnable, Loggable {
     VKCore vk_core;
     ActionListener(VKCore vk_core){
         this.vk_core = vk_core;
     }
     @Override
     public void run() {
-        System.out.println("ActionListener is ran.");
+        LogToConsole("ActionListener started.");
         while (true){
             try {
                 Thread.sleep(500);
@@ -28,19 +29,25 @@ public class ActionListener implements Runnable {
                     Executors
                             .newCachedThreadPool()
                             .execute(new ActionThread(message));
-
                 }
-            } catch (ClientException e){
-                System.out.println("Connection error");
+            }
+            catch (ClientException e){
+                LogToConsole("Connection error");
                 final int RECONNECT_TIME = 10000;
-                System.out.println("Reconnect after " + RECONNECT_TIME / 1000 + " seconds.");
+                LogToConsole("Reconnect after " + RECONNECT_TIME / 1000 + " seconds.");
                 try {
                     Thread.sleep(RECONNECT_TIME);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
             } catch (ApiException ignored){
-
+                try {
+                    vk_core = new VKCore();
+                } catch (ClientException | ApiException e) {
+                    e.printStackTrace();
+                    LogToConsole("Critical error. ActionListener will be completed.");
+                    break;
+                }
             }
         }
     }
