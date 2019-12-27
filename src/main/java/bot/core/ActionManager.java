@@ -3,6 +3,7 @@ package bot.core;
 import bot.core.actions.Action;
 import bot.core.actions.Start;
 import bot.core.actions.Unknown;
+import bot.core.actions.daily.Daily;
 import bot.core.actions.schedule.TodaySchedule;
 
 import java.util.ArrayList;
@@ -18,6 +19,9 @@ public class ActionManager {
         ))));
         actions.add(new TodaySchedule(new ArrayList<>(Arrays.asList(
                 "Расписание", "Р"
+        ))));
+        actions.add(new Daily(new ArrayList<>(Arrays.asList(
+                "Сводка", "С"
         ))));
     }
 

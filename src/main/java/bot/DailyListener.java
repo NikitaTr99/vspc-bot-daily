@@ -1,5 +1,7 @@
 package bot;
 
+import bot.core.ActionStarter;
+import bot.core.actions.daily.Daily;
 import bot.core.interfaces.Loggable;
 import bot.vkcore.VKCore;
 import bot.vkcore.VKManager;
@@ -36,11 +38,7 @@ public class DailyListener implements Runnable, Loggable {
                 System.out.println(vk_core.getGroupActor());
                     System.out.println(g.toString());
                     for(int id : g){
-                        new VKManager().sendMessage(
-                                new Message()
-                                        .setPeerId(id)
-                                        .setRandomId((int) System.currentTimeMillis())
-                                        .setText("You daily: \n"));
+                        new Daily(null).execute(new Message().setPeerId(id));
                     }
                 try {
                     Thread.sleep(82800000);
@@ -49,11 +47,11 @@ public class DailyListener implements Runnable, Loggable {
                 }
             }
             else {
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Thread.sleep(10000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
             }
         }
     }
