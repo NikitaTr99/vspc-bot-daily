@@ -25,7 +25,7 @@ public class Bootstrapper {
         System.out.println("Bootstrap bot...");
         try{
             Executors.newCachedThreadPool().execute(new ActionListener(vk_core));
-            Executors.newCachedThreadPool().execute(new DailyListener(vk_core));
+//            Executors.newCachedThreadPool().execute(new DailyListener(vk_core));
         }
         catch (Exception e){
             System.out.println("Something wrong.");
