@@ -33,7 +33,7 @@ public class Daily extends Action {
                             new FileInputStream(
                                     new File(Bootstrapper.BotSettings.bot_properties.getProperty("path_to_daily")
                                             + "/"
-                                            + "Daily_text.txt"
+                                            + "daily_text.txt"
                                     ))
                     );
         } catch (FileNotFoundException e) {
