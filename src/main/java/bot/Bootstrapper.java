@@ -41,11 +41,11 @@ public class Bootstrapper {
             bot_properties = new Properties();
             vk_properties = new Properties();
             try {
-                bot_properties = loadFromFile("config-bot.properties");
+                bot_properties = loadFromFile("bot-config.properties");
             }
             catch (IOException ignored) {
                 try {
-                    bot_properties = loadFromSource("config-bot.properties");
+                    bot_properties = loadFromSource("bot-config.properties");
                 }
                 catch (IOException e) {
                     e.printStackTrace();
@@ -53,10 +53,10 @@ public class Bootstrapper {
                 }
             }
             try {
-                vk_properties = loadFromFile("vkconfig-test.properties");
+                vk_properties = loadFromFile("vk-config.properties");
             } catch (IOException ignored) {
                 try {
-                    vk_properties = loadFromSource("vkconfig-test.properties");
+                    vk_properties = loadFromSource("vk-config.properties");
                 } catch (IOException e) {
                     e.printStackTrace();
                     System.out.println("Error loading VK configuration.");
