@@ -4,6 +4,8 @@ import bot.core.actions.Action;
 import bot.core.actions.Start;
 import bot.core.actions.Unknown;
 import bot.core.actions.daily.Daily;
+import bot.core.actions.daily.Subscribe;
+import bot.core.actions.daily.Unsubscribe;
 import bot.core.actions.schedule.TodaySchedule;
 
 import java.util.ArrayList;
@@ -22,6 +24,12 @@ public class ActionManager {
         ))));
         actions.add(new Daily(new ArrayList<>(Arrays.asList(
                 "Сводка", "С"
+        ))));
+        actions.add(new Subscribe(new ArrayList<>(Arrays.asList(
+                "Подписаться"
+        ))));
+        actions.add(new Unsubscribe(new ArrayList<>(Arrays.asList(
+                "Отписаться"
         ))));
     }
 
