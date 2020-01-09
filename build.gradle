@@ -12,7 +12,7 @@ plugins {
     id 'application'
 }
 
-version = '0.2.1'
+version = '1.0'
 
 
 repositories {
@@ -39,11 +39,11 @@ dependencies {
 }
 
 application {
-    // Define the main class for the application.
     mainClassName = 'bot.Bootstrapper'
 }
 
 jar {
+
     manifest {
         attributes(
                 'Main-Class': 'bot.Bootstrapper'
@@ -51,13 +51,6 @@ jar {
     }
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
-sourceSets {
-    main {
-        resources {
-            srcDirs "src/main/resources"
-        }
     }
 }
 
