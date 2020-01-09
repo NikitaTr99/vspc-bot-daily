@@ -1,19 +1,24 @@
 @echo off
-IF NOT EXIST bot-config.properties (
+
+IF NOT EXIST bin (
+    mkdir bin
+)
+
+IF NOT EXIST bin\bot-config.properties (
     (
         echo notification_time = 00:00:00
         echo time_zone = +0:00
-        echo path_to_days = days
-        echo path_to_daily = daily
+        echo path_to_days = ..\days
+        echo path_to_daily = ..\daily
         echo subscribers =
-    ) > bot-config.properties
+    ) >bin\bot-config.properties
 )
 
-IF NOT EXIST vk-config.properties (
+IF NOT EXIST bin\vk-config.properties (
     (
         echo access_token = /*you access token*/
         echo group_id = /*you group ID*/
-    ) > vk-config.properties
+    ) > bin\vk-config.properties
 )
 
 IF NOT EXIST days (
