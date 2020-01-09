@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Properties;
@@ -29,13 +28,12 @@ public class Bootstrapper {
         System.out.println("Bootstrap bot...");
         try{
             Executors.newCachedThreadPool().execute(new ActionListener(vk_core));
-//            Executors.newCachedThreadPool().execute(new DailyListener(vk_core));
+            Executors.newCachedThreadPool().execute(new DailyListener());
         }
         catch (Exception e){
             System.out.println("Something wrong.");
             e.printStackTrace();
         }
-
     }
     public static class BotSettings {
         public static Properties bot_properties;
@@ -97,7 +95,18 @@ public class Bootstrapper {
             property += id + ";";
             bot_properties.setProperty("subscribers", property);
             try {
-                bot_properties.store(new FileOutputStream("bot-config.properties"),"new subscriber");
+                bot_properties.store(new FileOutputStream("bot-config.properties"),"Added subscriber");
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Error updating configuration.");
+            }
+        }
+        public static void RemoveSubscriber(Integer id){
+            String property = BotSettings.bot_properties.getProperty("subscribers");
+            property = property.replaceAll(id + ";","");
+            bot_properties.setProperty("subscribers", property);
+            try {
+                bot_properties.store(new FileOutputStream("bot-config.properties"),"Removed subscriber");
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("Error updating configuration.");
