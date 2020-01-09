@@ -12,47 +12,32 @@ import com.vk.api.sdk.objects.messages.Message;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.TimeZone;
 
 public class DailyListener implements Runnable, Loggable {
-    private VKCore vk_core;
-    DailyListener(VKCore vk_core){
-        this.vk_core = vk_core;
-    }
     @Override
     public void run() {
-        LogToConsole("DailyListener started.");
-        List<Integer> g = new ArrayList<>();
-        try {
-            g = new Groups(vk_core.getVkApiClient())
-                    .getMembers(vk_core.getGroupActor())
-                    .groupId(String.valueOf(vk_core.getGroupActor().getGroupId()))
-                    .execute()
-                    .getItems();
-        } catch (ApiException | ClientException e) {
-            e.printStackTrace();
-        }
+        LogToConsole("Daily is running.");
         while (true){
-            String now_time = new SimpleDateFormat("HH:mm:ss").format(System.currentTimeMillis());
-            if(now_time.equals(Bootstrapper.BotSettings.bot_properties.getProperty("notification_time"))){
-                System.out.println(vk_core.getGroupActor());
-                    System.out.println(g.toString());
-                    for(int id : g){
-                        new Daily(null).execute(new Message().setPeerId(id));
-                    }
-                try {
-                    Thread.sleep(82800000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            if(TimeNow().equals(Bootstrapper.BotSettings.bot_properties.getProperty("notification_time"))){
+                for(int id : Bootstrapper.BotSettings.subscribers){
+                    new Daily(null).execute(new Message().setPeerId(id));
                 }
             }
-            else {
-//                try {
-//                    Thread.sleep(10000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
+    }
+    protected String TimeNow(){
+        SimpleDateFormat now_time = new SimpleDateFormat("HH:mm:ss");
+        now_time.setTimeZone(java.util.TimeZone.getTimeZone("GMT"
+                + Bootstrapper.BotSettings.bot_properties.getProperty("time_zone")
+        ));
+        return now_time.format(System.currentTimeMillis());
     }
 }
