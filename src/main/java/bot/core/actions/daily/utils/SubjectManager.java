@@ -6,7 +6,6 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Objects;
 
 public class SubjectManager {
@@ -31,7 +30,7 @@ public class SubjectManager {
             initSubjects(
                     Objects.requireNonNull(
                             ClassLoader.getSystemResourceAsStream(
-                                    "new_days/" + LocalDate.now().getDayOfWeek().toString().toLowerCase() + ".txt"
+                                    "days/" + LocalDate.now().getDayOfWeek().toString().toLowerCase() + ".txt"
                             )));
         }
     }

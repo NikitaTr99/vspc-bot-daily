@@ -26,7 +26,7 @@ public class Daily extends Action {
             string_to_format = Bootstrapper.BotSettings.bot_properties.getProperty("path_to_daily").equals("null")?
                     ReadDailyText(Objects.requireNonNull(
                             ClassLoader.getSystemResourceAsStream(
-                                    "new_days/" + LocalDate.now().getDayOfWeek().toString().toLowerCase() + ".txt"
+                                    "days/" + LocalDate.now().getDayOfWeek().toString().toLowerCase() + ".txt"
                             )))
                     :
                     ReadDailyText(
