@@ -6,10 +6,13 @@ import com.vk.api.sdk.objects.messages.Message;
 import java.util.ArrayList;
 
 public class Unknown extends Action {
-    String text = "Я не знаю такой команды.\n" +
-            "Что бы получить расписание на сегодня отправь" +
-            " \"расписание\" или " +
-            "сокращённо \"р\".";
+    String text =
+            "Неизвестная команда.\n" +
+            "Вот список команд которые я знаю: \n" +
+                    "1. Расписание.\n" +
+                    "2. Сводка.\n" +
+                    "3. Подписаться.\n" +
+                    "4. Отписаться.";
 
     public Unknown() {
         super(null);
