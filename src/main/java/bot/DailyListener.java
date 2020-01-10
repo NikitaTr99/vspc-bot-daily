@@ -1,20 +1,10 @@
 package bot;
 
-import bot.core.ActionStarter;
 import bot.core.actions.daily.Daily;
 import bot.core.interfaces.Loggable;
-import bot.vkcore.VKCore;
-import bot.vkcore.VKManager;
-import com.vk.api.sdk.actions.Groups;
-import com.vk.api.sdk.exceptions.ApiException;
-import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.messages.Message;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.TimeZone;
 
 public class DailyListener implements Runnable, Loggable {
     @Override
@@ -22,8 +12,15 @@ public class DailyListener implements Runnable, Loggable {
         LogToConsole("Daily is running.");
         while (true){
             if(TimeNow().equals(Bootstrapper.BotSettings.bot_properties.getProperty("notification_time"))){
-                for(int id : Bootstrapper.BotSettings.subscribers){
-                    new Daily(null).execute(new Message().setPeerId(id));
+                if(Bootstrapper.BotSettings.subscribers != null){
+                    for(int id : Bootstrapper.BotSettings.subscribers){
+                        new Daily(null).execute(new Message().setPeerId(id));
+                    }
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
             try {

@@ -1,6 +1,5 @@
 package bot;
 
-import bot.core.interfaces.Loggable;
 import bot.vkcore.VKCore;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
@@ -41,6 +40,21 @@ public class Bootstrapper {
         public static ArrayList<Integer> subscribers;
         static {
             System.out.println("Load configuration...");
+            loadConfiguration();
+        }
+        private static Properties loadFromFile(String name) throws IOException {
+            Properties p = new Properties();
+            p.load(new FileInputStream(new File(name)));
+            System.out.println(name + " load from file: " + new File(name).getAbsolutePath());
+            return p;
+        }
+        private static Properties loadFromSource(String name) throws IOException {
+            Properties p = new Properties();
+            p.load(Objects.requireNonNull(ClassLoader.getSystemResourceAsStream(name)));
+            System.out.println(name + " load from source.");
+            return p;
+        }
+        private static void loadConfiguration(){
             bot_properties = new Properties();
             vk_properties = new Properties();
             try {
@@ -65,21 +79,9 @@ public class Bootstrapper {
                     System.out.println("Error loading VK configuration.");
                 }
             }
-            subscribers = LoadSubscribers();
+            subscribers = loadSubscribers();
         }
-        private static Properties loadFromFile(String name) throws IOException {
-            Properties p = new Properties();
-            p.load(new FileInputStream(new File(name)));
-            System.out.println(name + " load from file: " + new File(name).getAbsolutePath());
-            return p;
-        }
-        private static Properties loadFromSource(String name) throws IOException {
-            Properties p = new Properties();
-            p.load(Objects.requireNonNull(ClassLoader.getSystemResourceAsStream(name)));
-            System.out.println(name + " load from source.");
-            return p;
-        }
-        private static ArrayList<Integer> LoadSubscribers(){
+        private static ArrayList<Integer> loadSubscribers(){
             String property = BotSettings.bot_properties.getProperty("subscribers");
             ArrayList<Integer> subscribers = new ArrayList<>();
             if(property.isEmpty()){
@@ -90,23 +92,41 @@ public class Bootstrapper {
             }
             return subscribers;
         }
-        public static void AddSubscriber(Integer id){
+        private static void updateBotConfiguration(){
+            try {
+                bot_properties = loadFromFile("bot-config.properties");
+            }
+            catch (IOException ignored) {
+                try {
+                    bot_properties = loadFromSource("bot-config.properties");
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("Error loading bot configuration.");
+                }
+            }
+            subscribers = loadSubscribers();
+        }
+
+        public static void addSubscriber(Integer id){
             String property = BotSettings.bot_properties.getProperty("subscribers");
             property += id + ";";
             bot_properties.setProperty("subscribers", property);
             try {
                 bot_properties.store(new FileOutputStream("bot-config.properties"),"Added subscriber");
+                updateBotConfiguration();
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("Error updating configuration.");
             }
         }
-        public static void RemoveSubscriber(Integer id){
+        public static void removeSubscriber(Integer id){
             String property = BotSettings.bot_properties.getProperty("subscribers");
             property = property.replaceAll(id + ";","");
             bot_properties.setProperty("subscribers", property);
             try {
                 bot_properties.store(new FileOutputStream("bot-config.properties"),"Removed subscriber");
+                updateBotConfiguration();
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("Error updating configuration.");

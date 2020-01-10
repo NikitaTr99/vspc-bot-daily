@@ -18,7 +18,7 @@ public class Subscribe extends Action {
             new VKManager().sendMessage(buildMessage("Вы уже подписаны на рассылку. Для отписки напишите \"Отписаться\"",message.getPeerId()));
         }
         else {
-            Bootstrapper.BotSettings.AddSubscriber(message.getPeerId());
+            Bootstrapper.BotSettings.addSubscriber(message.getPeerId());
             new VKManager().sendMessage(buildMessage("Вы успешно подписались на рассылку!",message.getPeerId()));
         }
         LogToConsole(log(message));
