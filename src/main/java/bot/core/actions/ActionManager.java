@@ -8,6 +8,7 @@ import bot.core.actions.daily.Daily;
 import bot.core.actions.daily.Subscribe;
 import bot.core.actions.daily.Unsubscribe;
 import bot.core.actions.schedule.TodaySchedule;
+import bot.core.actions.schedule.TomorrowSchedule;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +38,9 @@ public class ActionManager {
         ))));
         actions.add(new Help(new ArrayList<>(Arrays.asList(
                 "Команды"
+        ))));
+        actions.add(new TomorrowSchedule(new ArrayList<>(Arrays.asList(
+                "Завтра", "З"
         ))));
     }
 
