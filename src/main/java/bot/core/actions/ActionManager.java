@@ -1,6 +1,8 @@
-package bot.core;
+package bot.core.actions;
 
+import bot.core.actions.admin.ForceUpdateConfig;
 import bot.core.actions.base.Action;
+import bot.core.actions.base.Help;
 import bot.core.actions.base.Start;
 import bot.core.actions.daily.Daily;
 import bot.core.actions.daily.Subscribe;
@@ -29,6 +31,12 @@ public class ActionManager {
         ))));
         actions.add(new Unsubscribe(new ArrayList<>(Arrays.asList(
                 "Отписаться"
+        ))));
+        actions.add(new ForceUpdateConfig(new ArrayList<>(Arrays.asList(
+                "Force", "ForceUpdateConfig"
+        ))));
+        actions.add(new Help(new ArrayList<>(Arrays.asList(
+                "Команды"
         ))));
     }
 

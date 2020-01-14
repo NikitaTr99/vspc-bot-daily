@@ -13,25 +13,18 @@ public class SubjectManager {
     public ArrayList<Subject> subjects = new ArrayList<Subject>();
 
     public SubjectManager() {
-        if(!Bootstrapper.BotSettings.bot_properties.getProperty("path_to_days").equals("null")){
+        if(!Bootstrapper.Configurations.getPathToDays().equals("null")){
             try {
                 initSubjects(
                         new FileInputStream(
-                                new File(Bootstrapper.BotSettings.bot_properties.getProperty("path_to_days")
+                                new File(Bootstrapper.Configurations.getPathToDays()
                                         + "/"
-                                        + LocalDate.now().getDayOfWeek().toString().toLowerCase()
+                                        + Bootstrapper.Configurations.getDayOfWeek()
                                         + ".txt"
                         )));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-        }
-        else{
-            initSubjects(
-                    Objects.requireNonNull(
-                            ClassLoader.getSystemResourceAsStream(
-                                    "days/" + LocalDate.now().getDayOfWeek().toString().toLowerCase() + ".txt"
-                            )));
         }
     }
 
@@ -62,8 +55,8 @@ public class SubjectManager {
         StringBuilder stringBuilder = new StringBuilder();
         int counter = 1;
         for(Subject subject: subjects){
-            stringBuilder
-                    .append(counter++ + ". ")
+            stringBuilder.append(counter++)
+                    .append(". ")
                     .append(subject)
                     .append(newLine);
         }

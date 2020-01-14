@@ -1,6 +1,5 @@
-package bot.core;
+package bot.core.actions;
 
-import bot.core.ActionStarter;
 import com.vk.api.sdk.objects.messages.Message;
 
 public class ActionThread implements Runnable {

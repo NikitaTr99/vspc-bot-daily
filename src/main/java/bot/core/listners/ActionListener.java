@@ -1,6 +1,6 @@
 package bot.core.listners;
 
-import bot.core.ActionThread;
+import bot.core.actions.ActionThread;
 import bot.core.interfaces.Loggable;
 import bot.core.vk.VKCore;
 import com.vk.api.sdk.exceptions.ApiException;
@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 
 public class ActionListener implements Runnable, Loggable {
     VKCore vk_core;
-    ActionListener(VKCore vk_core){
+    public ActionListener(VKCore vk_core){
         this.vk_core = vk_core;
     }
     @Override

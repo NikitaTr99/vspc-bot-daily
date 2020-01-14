@@ -23,19 +23,13 @@ public class Daily extends Action {
     private void init(){
         subjectManager = new SubjectManager();
         try {
-            string_to_format = Bootstrapper.BotSettings.bot_properties.getProperty("path_to_daily").equals("null")?
-                    ReadDailyText(Objects.requireNonNull(
-                            ClassLoader.getSystemResourceAsStream(
-                                    "days/" + LocalDate.now().getDayOfWeek().toString().toLowerCase() + ".txt"
-                            )))
-                    :
-                    ReadDailyText(
-                            new FileInputStream(
-                                    new File(Bootstrapper.BotSettings.bot_properties.getProperty("path_to_daily")
-                                            + "/"
-                                            + "daily_text.txt"
-                                    ))
-                    );
+            string_to_format = ReadDailyText(
+                                new FileInputStream(
+                                     new File(Bootstrapper.Configurations.getPathToDaily()
+                                               + "/"
+                                                + "daily_text.txt"
+                                      ))
+                                );
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

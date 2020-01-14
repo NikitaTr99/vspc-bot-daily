@@ -22,12 +22,10 @@ public class VKCore {
     public VKCore() throws ClientException, ApiException {
         TransportClient transportClient = HttpTransportClient.getInstance();
         vkApiClient = new VkApiClient(transportClient);
-        Properties prop = new Properties();
-        int group_id;
-        String access_token;
-        group_id = Integer.parseInt(Bootstrapper.BotSettings.vk_properties.getProperty("group_id"));
-        access_token = Bootstrapper.BotSettings.vk_properties.getProperty("access_token");
-        groupActor = new GroupActor(group_id,access_token);
+        groupActor = new GroupActor(
+                Bootstrapper.Configurations.getVkGroupId(),
+                Bootstrapper.Configurations.getVkAccessToken()
+        );
         ts = vkApiClient.messages().getLongPollServer(groupActor).execute().getTs();
     }
 

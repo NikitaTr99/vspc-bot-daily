@@ -14,11 +14,11 @@ public class Subscribe extends Action {
 
     @Override
     public void execute(Message message) {
-        if(Bootstrapper.BotSettings.bot_properties.getProperty("subscribers").contains(message.getPeerId().toString())){
+        if(Bootstrapper.Configurations.getSubscribers().contains(message.getPeerId())){
             new VKManager().sendMessage(buildMessage("Вы уже подписаны на рассылку. Для отписки напишите \"Отписаться\"",message.getPeerId()));
         }
         else {
-            Bootstrapper.BotSettings.addSubscriber(message.getPeerId());
+            Bootstrapper.Configurations.addSubscriber(message.getPeerId());
             new VKManager().sendMessage(buildMessage("Вы успешно подписались на рассылку!",message.getPeerId()));
         }
         LogToConsole(log(message));

@@ -14,8 +14,8 @@ public class Unsubscribe extends Action {
 
     @Override
     public void execute(Message message) {
-        if(Bootstrapper.BotSettings.bot_properties.getProperty("subscribers").contains(message.getPeerId().toString())){
-            Bootstrapper.BotSettings.removeSubscriber(message.getPeerId());
+        if(Bootstrapper.Configurations.getSubscribers().contains(message.getPeerId())){
+            Bootstrapper.Configurations.removeSubscriber(message.getPeerId());
             new VKManager().sendMessage(buildMessage("Вы отписались от рассылки.",message.getPeerId()));
         }
         else {

@@ -1,4 +1,4 @@
-package bot.core;
+package bot.core.actions;
 
 import com.vk.api.sdk.objects.messages.Message;
 

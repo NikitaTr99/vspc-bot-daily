@@ -12,14 +12,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class TodaySchedule extends Action {
-    Locale localeRu = new Locale("ru", "RU");
-    static String path_to_days = "days/";
-    static {
-        if(!Bootstrapper.BotSettings.bot_properties.getProperty("path_to_days").equals("null")){
-            path_to_days = Bootstrapper.BotSettings.bot_properties.getProperty("path_to_days");
-        }
-    }
-
     public TodaySchedule(ArrayList<String> tags){
         super(tags);
     }
@@ -27,7 +19,7 @@ public class TodaySchedule extends Action {
     @Override
     public void execute(Message message) {
         new VKManager().sendMessage(buildMessage("Сегодня "
-                + LocalDate.now().getDayOfWeek().getDisplayName(TextStyle.FULL, localeRu) + ": \n" +
+                + LocalDate.now().getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("ru", "RU")) + ": \n" +
                         new SubjectManager().TodaySchedule()
                 ,message.getPeerId()));
         LogToConsole(log(message));

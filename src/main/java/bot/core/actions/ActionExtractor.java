@@ -1,4 +1,4 @@
-package bot.core;
+package bot.core.actions;
 
 import bot.core.actions.base.Action;
 import bot.core.actions.base.Unknown;
