@@ -7,7 +7,7 @@ IF NOT EXIST bin (
 IF NOT EXIST bin\bot-config.properties (
     (
         echo notification_time = 00:00:00
-        echo time_zone = +0:00
+        echo time_zone = +00:00
         echo path_to_days = ../days
         echo path_to_daily = ../daily
         echo subscribers =
