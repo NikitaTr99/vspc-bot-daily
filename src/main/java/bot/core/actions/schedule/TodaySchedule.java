@@ -1,6 +1,5 @@
 package bot.core.actions.schedule;
 
-import bot.Bootstrapper;
 import bot.core.actions.base.Action;
 import bot.core.actions.daily.utils.SubjectManager;
 import bot.core.vk.VKManager;
@@ -20,7 +19,7 @@ public class TodaySchedule extends Action {
     public void execute(Message message) {
         new VKManager().sendMessage(buildMessage("Сегодня "
                 + LocalDate.now().getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("ru", "RU")) + ": \n" +
-                        new SubjectManager().TodaySchedule()
+                        new SubjectManager(this).getSchedule()
                 ,message.getPeerId()));
         LogToConsole(log(message));
     }
