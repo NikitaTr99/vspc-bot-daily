@@ -11,6 +11,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Properties;
@@ -88,13 +93,21 @@ public class Bootstrapper {
             }
             return properties;
         }
-        private static String DayToday(){
-            SimpleDateFormat now_time = new SimpleDateFormat("EEEE", Locale.ENGLISH);
-            now_time.setTimeZone(java.util.TimeZone.getTimeZone("GMT"
-                    + bot_configuration.getProperty("time_zone")
-            ));
-            return now_time.format(System.currentTimeMillis());
+
+        public static String DayToday(){
+            return LocalDateTime
+                    .now()
+                    .atZone(ZoneId.ofOffset("GMT", ZoneOffset.of(getTimeZone())))
+                    .format(DateTimeFormatter.ofPattern("EEEE",Locale.ENGLISH)).toLowerCase();
         }
+        public static String DayTomorrow(){
+            return LocalDateTime
+                    .now()
+                    .atZone(ZoneId.ofOffset("GMT", ZoneOffset.of(getTimeZone())))
+                    .plusDays(1)
+                    .format(DateTimeFormatter.ofPattern("EEEE",Locale.ENGLISH)).toLowerCase();
+        }
+
 
         public static void addSubscriber(Integer id){
             String property = bot_configuration.getProperty("subscribers");
@@ -145,10 +158,6 @@ public class Bootstrapper {
         }
         public static ArrayList<Integer> getSubscribers(){
             return subscribers;
-        }
-        public static String getDayOfWeek(){
-            updateConfiguration();
-            return DayToday();
         }
         public static String getAdmin(){
             return bot_configuration.getProperty("admin");

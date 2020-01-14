@@ -8,20 +8,16 @@ import com.vk.api.sdk.objects.messages.Message;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Daily extends Action {
     private String string_to_format;
-    private SubjectManager subjectManager;
 
     public Daily(ArrayList<String> word_tags) {
         super(word_tags);
         init();
     }
     private void init(){
-        subjectManager = new SubjectManager();
         try {
             string_to_format = ReadDailyText(
                                 new FileInputStream(
@@ -57,11 +53,12 @@ public class Daily extends Action {
     }
 
     private String BuildRequestString(){
+        SubjectManager subjectManager = new SubjectManager();
         String s = string_to_format;
         s = s.replace("count", Integer.toString(subjectManager.getSubjects().size()));
         s = s.replace("start_time",subjectManager.subjects.get(0).start_time);
         s = s.replace("end_time",subjectManager.subjects.get(subjectManager.subjects.size() - 1).end_time);
-        s = s.replace("TodaySchedule",subjectManager.TodaySchedule());
+        s = s.replace("TodaySchedule",subjectManager.getSchedule());
         return s;
     }
 }
