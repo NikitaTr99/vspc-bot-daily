@@ -15,7 +15,6 @@ public class Daily extends Action {
 
     public Daily(ArrayList<String> word_tags) {
         super(word_tags);
-        init();
     }
     private void init(){
         try {
@@ -33,6 +32,7 @@ public class Daily extends Action {
 
     @Override
     public void execute(Message message) {
+        init();
         new VKManager().sendMessage(buildMessage(BuildRequestString(),message.getPeerId()));
         LogToConsole(log(message));
     }
