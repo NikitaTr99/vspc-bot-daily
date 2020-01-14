@@ -1,6 +1,6 @@
-package bot.core.actions;
+package bot.core.actions.base;
 
-import bot.vkcore.VKManager;
+import bot.core.vk.VKManager;
 import com.vk.api.sdk.objects.messages.Message;
 
 import java.util.ArrayList;

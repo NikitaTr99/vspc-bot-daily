@@ -1,8 +1,8 @@
-package bot;
+package bot.core.listners;
 
 import bot.core.ActionThread;
 import bot.core.interfaces.Loggable;
-import bot.vkcore.VKCore;
+import bot.core.vk.VKCore;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.messages.Message;

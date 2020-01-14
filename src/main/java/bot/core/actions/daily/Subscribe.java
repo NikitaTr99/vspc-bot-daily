@@ -1,8 +1,8 @@
 package bot.core.actions.daily;
 
 import bot.Bootstrapper;
-import bot.core.actions.Action;
-import bot.vkcore.VKManager;
+import bot.core.actions.base.Action;
+import bot.core.vk.VKManager;
 import com.vk.api.sdk.objects.messages.Message;
 
 import java.util.ArrayList;

@@ -1,5 +1,6 @@
-package bot;
+package bot.core.listners;
 
+import bot.Bootstrapper;
 import bot.core.actions.daily.Daily;
 import bot.core.interfaces.Loggable;
 import com.vk.api.sdk.objects.messages.Message;

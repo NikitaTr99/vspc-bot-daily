@@ -1,4 +1,4 @@
-package bot.vkcore;
+package bot.core.vk;
 
 import bot.Bootstrapper;
 import com.vk.api.sdk.client.TransportClient;

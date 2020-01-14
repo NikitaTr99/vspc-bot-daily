@@ -1,4 +1,4 @@
-package bot.core.actions;
+package bot.core.actions.base;
 
 import bot.core.interfaces.Loggable;
 import com.vk.api.sdk.objects.messages.Message;

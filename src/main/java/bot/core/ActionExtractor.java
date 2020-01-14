@@ -1,7 +1,7 @@
 package bot.core;
 
-import bot.core.actions.Action;
-import bot.core.actions.Unknown;
+import bot.core.actions.base.Action;
+import bot.core.actions.base.Unknown;
 import com.vk.api.sdk.objects.messages.Message;
 
 import java.util.Collection;

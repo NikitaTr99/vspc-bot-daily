@@ -1,8 +1,7 @@
 package bot.core;
 
-import bot.core.actions.Action;
-import bot.core.actions.Start;
-import bot.core.actions.Unknown;
+import bot.core.actions.base.Action;
+import bot.core.actions.base.Start;
 import bot.core.actions.daily.Daily;
 import bot.core.actions.daily.Subscribe;
 import bot.core.actions.daily.Unsubscribe;

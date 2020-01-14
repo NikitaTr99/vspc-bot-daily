@@ -1,18 +1,15 @@
 package bot.core.actions.schedule;
 
 import bot.Bootstrapper;
-import bot.core.actions.Action;
+import bot.core.actions.base.Action;
 import bot.core.actions.daily.utils.SubjectManager;
-import bot.vkcore.VKManager;
+import bot.core.vk.VKManager;
 import com.vk.api.sdk.objects.messages.Message;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Objects;
 
 public class TodaySchedule extends Action {
     Locale localeRu = new Locale("ru", "RU");
