@@ -1,10 +1,13 @@
 package bot.core.actions.daily.utils;
 
 import bot.Bootstrapper;
+import bot.core.actions.schedule.ScheduleOfDay;
 import bot.core.actions.schedule.TodaySchedule;
 import bot.core.actions.schedule.TomorrowSchedule;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -25,6 +28,13 @@ public class SubjectManager {
         }
         else if(object.getClass().getSimpleName().equals(TomorrowSchedule.class.getSimpleName())){
             loadSchedule(Bootstrapper.Configurations.DayTomorrow());
+        }
+        else if(object.getClass().getSimpleName().equals(ScheduleOfDay.class.getSimpleName())){
+            try{
+                loadSchedule((String) object.getClass().getMethod("getOfDay").invoke(object));
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
         }
         else {
             loadSchedule(Bootstrapper.Configurations.DayToday());
@@ -58,17 +68,6 @@ public class SubjectManager {
             String line;
             while ((line = reader.readLine()) != null) {
                 addSubject(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    private void initSubjectsForTomorrow(InputStream inputStream){
-        ArrayList<Subject> subjects = new ArrayList<>();
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                subjects.add(new Subject(line));
             }
         } catch (IOException e) {
             e.printStackTrace();

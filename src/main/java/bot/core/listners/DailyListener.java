@@ -14,8 +14,10 @@ public class DailyListener implements Runnable, Loggable {
         while (true){
             if(TimeNow().equals(Bootstrapper.Configurations.getNotificationTime())){
                 if(Bootstrapper.Configurations.getSubscribers() != null){
-                    for(int id : Bootstrapper.Configurations.getSubscribers()){
-                        new Daily(null).execute(new Message().setPeerId(id));
+                    if (!Bootstrapper.Configurations.getWeekends().contains(Bootstrapper.Configurations.DayToday().toLowerCase())){
+                        for(int id : Bootstrapper.Configurations.getSubscribers()){
+                            new Daily(null).execute(new Message().setPeerId(id));
+                        }
                     }
                 }
                 try {

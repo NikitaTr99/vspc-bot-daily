@@ -1,24 +1,20 @@
 package bot;
 
 import bot.core.listners.ActionListener;
+import bot.core.listners.ConfigurationsListener;
 import bot.core.listners.DailyListener;
 import bot.core.vk.VKCore;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.Executors;
 
 public class Bootstrapper {
@@ -36,6 +32,7 @@ public class Bootstrapper {
         try{
             Executors.newCachedThreadPool().execute(new ActionListener(vk_core));
             Executors.newCachedThreadPool().execute(new DailyListener());
+            Executors.newCachedThreadPool().execute(new ConfigurationsListener());
         }
         catch (Exception e){
             System.out.println("Something wrong.");
@@ -48,12 +45,23 @@ public class Bootstrapper {
         private static Properties bot_configuration;
         private static Properties vk_configuration;
         private static ArrayList<Integer> subscribers;
+        private static Map<String,String> days_of_week_ruENG_map = Map.ofEntries(
+                new AbstractMap.SimpleEntry<>("понедельник", "monday"),
+                new AbstractMap.SimpleEntry<>("вторник", "tuesday"),
+                new AbstractMap.SimpleEntry<>("среда", "wednesday"),
+                new AbstractMap.SimpleEntry<>("четверг", "thursday"),
+                new AbstractMap.SimpleEntry<>("пятница", "friday"),
+                new AbstractMap.SimpleEntry<>("суббота", "saturday"),
+                new AbstractMap.SimpleEntry<>("воскресение", "sunday")
+        );
+        private static ArrayList<String> weekends;
 
         static {
             try{
                 loadConfiguration();
             } catch (IOException e) {
                 System.out.println("Error loading configuration. The configuration file was not found.");
+                e.printStackTrace();
                 System.exit(1);
             }
         }
@@ -62,6 +70,7 @@ public class Bootstrapper {
             bot_configuration = loadFromFile("bot-config.properties");
             vk_configuration = loadFromFile("vk-config.properties");
             subscribers = loadSubscribers();
+            weekends = loadWeekends();
         }
         public static void updateConfiguration(){
             try{
@@ -80,6 +89,17 @@ public class Bootstrapper {
             }
             for (String s : property.split(";")){
                 subscribers.add(Integer.parseInt(s));
+            }
+            return subscribers;
+        }
+        private static ArrayList<String> loadWeekends(){
+            String property = bot_configuration.getProperty("weekends");
+            if(property.isEmpty()){
+                return null;
+            }
+            ArrayList<String> subscribers = new ArrayList<>();
+            for (String s : property.split(";")){
+                subscribers.add(new String(s.getBytes(),StandardCharsets.UTF_8));
             }
             return subscribers;
         }
@@ -135,19 +155,15 @@ public class Bootstrapper {
         }
 
         public static String getVkAccessToken(){
-            updateConfiguration();
             return vk_configuration.getProperty("access_token");
         }
         public static Integer getVkGroupId(){
-            updateConfiguration();
             return Integer.parseInt(vk_configuration.getProperty("group_id"));
         }
         public static String getPathToDaily(){
-            updateConfiguration();
             return bot_configuration.getProperty("path_to_daily");
         }
         public static String getPathToDays(){
-            updateConfiguration();
             return bot_configuration.getProperty("path_to_days");
         }
         public static String getNotificationTime(){
@@ -161,6 +177,12 @@ public class Bootstrapper {
         }
         public static String getAdmin(){
             return bot_configuration.getProperty("admin");
+        }
+        public static  Map<String,String> getDaysOfWeek(){
+            return days_of_week_ruENG_map;
+        }
+        public static ArrayList<String> getWeekends() {
+            return weekends;
         }
     }
 }
