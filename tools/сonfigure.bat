@@ -11,6 +11,7 @@ IF NOT EXIST bin\bot-config.properties (
         echo path_to_days = ../days
         echo path_to_daily = ../daily
         echo subscribers =
+        echo weekends = sunday;
     ) >bin\bot-config.properties
 )
 
@@ -34,8 +35,7 @@ IF NOT EXIST days (
 IF NOT EXIST daily (
     mkdir daily
     (
-       echo Доброе утро! Твоя сводка на сегодня:
-       echo Сегодня будет count уроков с start_time до end_time
+       echo Доброе утро! Твоё расписание на сегодня:
        echo TodaySchedule
        echo Удачного дня!
     )> daily\daily_text.txt
