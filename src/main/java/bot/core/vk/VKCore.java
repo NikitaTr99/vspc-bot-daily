@@ -11,9 +11,9 @@ import com.vk.api.sdk.objects.messages.Message;
 import com.vk.api.sdk.queries.messages.MessagesGetLongPollHistoryQuery;
 
 import java.util.List;
-import java.util.Properties;
 
 public class VKCore {
+
     private VkApiClient vkApiClient;
     private static int ts;
     private GroupActor groupActor;
